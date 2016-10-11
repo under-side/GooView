@@ -89,6 +89,7 @@ public class GooView extends View {
 		// 设置画笔颜色
 		myPaint.setColor(Color.RED);
 
+		//初始化两个圆的圆心坐标和半径
 		mDragCenter = new PointF(600f, 1000.0f);
 		mDragRadius = 40f;
 		mStickCenter = new PointF(600.0f, 1000.0f);
@@ -116,7 +117,7 @@ public class GooView extends View {
 		myPaint.setStyle(Style.FILL);
 
 		/*
-		 * 运用表示变量来进行对view的绘制
+		 * 运用状态变量来进行对view的绘制
 		 */
 
 		// 如果当前isDisappear为false则绘制view，否则将不绘制任何的view
@@ -155,6 +156,7 @@ public class GooView extends View {
 		if (currentDistance != 0) {
 			// 利用变化的距离与最远距离，两者比值的百分数来动态的改变固定圆的半径
 			float fraction = (currentDistance / mFinalDistance);
+			//运用类型估值器去获取固定圆半径的变化
 			Float currentStickRadius = evaluate(fraction, mStickRadius,
 					0.3f * mStickRadius);
 			return currentStickRadius;
@@ -288,13 +290,16 @@ public class GooView extends View {
 		value.start();
 	}
 
-	// 更新拖拽圆的半径，并调用invalidate方法进行重绘工作
+	// 更新拖拽圆的圆心，达到拖拽圆跟随手势的滑动而移动，并调用invalidate方法进行重绘工作
 	private void updateDragCycle(MotionEvent event) {
 		float x;
 		float y;
+		//获取的是相对与屏幕的坐标
 		x = event.getRawX();
 		y = event.getRawY();
+		
 		mDragCenter.set(x, y);
+		
 		invalidate();
 	}
 
